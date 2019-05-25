@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="game">
+
+                <span id="first-letter">_</span>
+                <span id="second-letter">_</span>
+                <span id="third-letter">_</span>
+                <span id="fourth-letter">_</span>
+                <span id="fifth-letter">_</span>
+                <span id="sixth-letter">_</span>
+                <span id="seventh-letter">_</span>
+            </div>
+    </div>
+
+    <script>
+
+        var array = ["m", "a", "d", "o", "n", "a"];
+
+        var numberOfGuesses = 12;
+        var wrong = 0;
+
+        document.onkeyup = function (a) {
+        var userGuess = a.key;
+        console.log("User input: " + userGuess);
+
+        if (userGuess === 'm') {
+            document.getElementById("first-letter").innerHTML = "m"
+        } else if (userGuess === 'a') {
+            document.getElementById("second-letter").innerHTML = "a"
+            document.getElementById("seventh-letter").innerHTML = "a"
+        } else if (userGuess === 'd') {
+            document.getElementById("third-letter").innerHTML = "d"
+        } else if (userGuess === 'o') {
+            document.getElementById("fourth-letter").innerHTML = "o"
+        } else if (userGuess === 'n') {
+            document.getElementById("fifth-letter").innerHTML = "n"
+            document.getElementById("sixth-letter").innerHTML = "n"
+        } else {
+            numberOfGuesses--
+            console.log(numberOfGuesses)
+        }
+
+        
+
+
+    };
+
+        
+    </script>
+</body>
+</html>
