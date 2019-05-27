@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container align-text-center">
+        <div class="row">
+            <div id="game">
+                <!-- Game text goes here -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="correct">
+                Correct: <div id="correct"></div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="wrong">
+                    Wrong:<div id="wrong"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var wordOne = ['m', 'a', 'd', 'o', 'n', 'n', 'a'];
+        var correct = 0; // added variable to contain amount of correct points; use to advance to "next level" when the array is complete.
+        var wrong = 12; // number of wrong keys until loss
+
+        document.onkeyup = function (a) {
+            var userGuess = a.key;
+            console.log("User input: " + userGuess); // print user's guess
+            for (var i = 0; i < wordOne.length; i++) {
+                if (userGuess === wordOne[i] ) {
+                    document.getElementById("game").innerHTML = "<span>" + wordOne[i] + "</span>";
+                    correct++; // adding a point to correct
+                    document.getElementById("correct").innerHTML = "<span>" + correct + "</span>";
+                    }
+                }
+            if (wordOne.indexOf(userGuess) === -1) {
+                wrong--; // lose a point
+                document.getElementById("wrong").innerHTML = "<span>" + wrong + "</span>";
+                console.log('Wrong Key');
+                }
+            }
+    </script>
+</body>
+</html>
