@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon-pokeball.ico" />
 </head>
 
 <body>
     <div class="container">
         <h1>Word Guess Game</h1>
         <div class="row">
-            <div class="col-sm-8 align-text-center">
+            <div class="col-sm-8">
                 <div id="random"></div>
                 <div id="array"></div>
                 <div id="answer"></div>
@@ -30,10 +30,10 @@
     <!-- Game Logic -->
     <script type="text/javascript">
 
-        // Fill in the question marks with what the output will be.
         var mainArr = ['pikachu', 'charmander', 'bulbasaur', 'squirtle', 'mewtwo'];
         var blankArr = [];
         var wrongArr = [];
+        var correctArr = [];
         var trys = 12;
         var win = 0;
 
@@ -48,52 +48,64 @@
         document.getElementById('array').innerHTML = `Array: ${array}`;
 
         // Create blank spaces based on length of array
-        var answerDisplay = function () {
+        var displayBlank = function () {
             for (i = 0; i < array.length; i++) {
                 blankArr.push("_");
                 console.log(`Blanks: ${blankArr}`); // Testing via Console.Log
             }
         };
-        answerDisplay();
+        displayBlank();
 
+        // create score system to track win and lose
+        var scoreSystem = function () {
+            if (trys == 0) {
+                alert(`Trys: ${trys}`);
+            }
+            if (array.length == correctArr.length) {
+                win++;
+                alert(`${array.length} | ${correctArr.length}`);
+            }
+        };
 
+        // write out blanks
         document.getElementById("answer").innerHTML = blankArr.join(" ");
 
+        // when user presses a key, do the following
         document.onkeyup = function (game) {
-
             var userInput = game.key;
             console.log(`\nUserInput: ${userInput} | ${typeof userInput}`);
             var bool = false;
 
-            array.forEach(function (item) { // when i put userinput in here, check animals array
+            // loop through choices and determine if true or false
+            array.forEach(function (item) {
                 if (userInput === item) {
                     bool = true;
                     console.log(`array.item: ${item}`);
                     console.log(`======= MATCH! =======\n`);
                 }
             });
+            // if true, replace blank space with user input, add input to correct array, check score
             if (bool === true) {
                 for (var i = 0; i < array.length; i++) {
                     console.log(array[i] + userInput);
                     if (array[i] === userInput) {
                         blankArr[i] = userInput;
                         console.log(`blankArr = ${blankArr}`);
+                        correctArr.push(userInput);
+                        console.log(`Correct Letters: ${correctArr}`);
+                        scoreSystem();
                     }
                 }
-            } else if (wrongArr.indexOf(userInput) === -1) {
+            // if false and user input is not in array, lose a try, put wrong input into array
+            } else if (wrongArr.indexOf(userInput) === -1 && trys > 0) {
                 wrongArr.push(userInput);
                 trys--;
                 document.getElementById('wrong').innerHTML = `wrongArr: ${wrongArr}`;
                 document.getElementById('trys').innerHTML = `Trys Left: ${trys}`;
                 console.log(`wrongArr = ${wrongArr}`);
                 console.log(`trys left = ${trys}`);
-            }
-
-            // var scoreSystem = function (score) {
-            //     if (trys === 0) {
-            //       alert('lose');
-            //   }
-            // }
+                scoreSystem();
+            } 
         };
 
     </script>
