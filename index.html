@@ -15,7 +15,7 @@
 
 <body>
     <div class="container">
-        <h1>Word Guess Game</h1>
+        <h1>Guess That Pokemon</h1>
         <div id="start-game">Start Game</div>
         <div class="row">
             <div class="col-sm-8">
@@ -39,7 +39,25 @@
         var trys = 12;
         var win = 0;
 
-        // let computer randomize the array of possible choices
+
+        // create score system to track win and lose
+        var scoreSystem = function () {
+            if (trys === 0) {
+                alert(`Trys: ${trys}`);
+            }
+
+            if (array.toString() == correctArr.toString()) { // use toString because .length will only match the total number of items to the last item in array
+                win++;
+                alert(`Win: length match = ${array.toString()} | ${correctArr.toString()}`);
+            }
+
+
+            console.log(array.length + ' ' + correctArr.length);
+            console.log(correctArr);
+
+        };
+
+        // WHEN I MAKE THIS A FUNCTION, USER PRESSES KEY TWICE? HOW TO TIE INTO DOCUMENT.ONKEYUP
         var randomArr = mainArr[Math.floor(Math.random() * mainArr.length)];
         console.log(`Random Pick: ${randomArr}`);
         document.getElementById('random').innerHTML = `Random Pick: ${randomArr}`;
@@ -55,26 +73,17 @@
             console.log(`Blanks: ${blankArr}`); // Testing via Console.Log
         }
 
-        // create score system to track win and lose
-        var scoreSystem = function () {
-            if (trys == 0) {
-                alert(`Trys: ${trys}`);
-            }
-            if (array.length == correctArr.length) {
-                win++;
-                alert(`${array.length} | ${blankArr.length}`);
-            }
-        };
-
+        // IF DOCUMENT.ONKEY UP IS INSIDE A FUNCTION, FOREACH STOPS WORKING
         // Game logic
         // when user presses a key, do the following
         document.onkeyup = function (game) {
             var userInput = game.key;
             console.log(`\nUserInput: ${userInput} | ${typeof userInput}`);
-            var bool = false;
+            var bool = false; // drop in variable to control whether true or false
             // write out to blanks
             document.getElementById("answer").innerHTML = blankArr.join(" ");
             
+            // NOT A FUNCTION IF DOCUMENT.ONKEYUP IS INSIDE A FUNCTION? **
             // loop through choices and determine if true or false
             array.forEach(function (item) {
                 if (userInput === item) {
@@ -83,29 +92,31 @@
                 }
             });
 
+            // THIS SHOULD BE A FUNCTION CHECKING TRUE OR FALSE OF USER INPUT / GUESS **
             // if true, replace blank space with user input, add input to correct array, check score
             if (bool === true) {
                 for (var i = 0; i < array.length; i++) {
                     console.log(array[i] + userInput);
-                    if (array[i] === userInput && i >= 0) {
+                    if (array[i] === userInput && i >= 0) { // in case there are 2 letters
                         blankArr[i] = userInput;
-                        correctArr[i] = blankArr[i]; // so that blanks dont count towards win; wip
-                        console.log(`blankArr = ${blankArr}`);
+                        correctArr[i] = userInput; // so that blanks dont count towards win; wip
+                        console.log(`correctArr = ${correctArr} | blankArr = ${blankArr}`);
                         document.getElementById("answer").innerHTML = blankArr.join(" ");
-                        scoreSystem();
+                        console.log(array.length + ' ' + correctArr.length)
+
                     }
                 }
 
             // if false and user input is not in array, lose a try, put wrong input into array
             } else if (wrongArr.indexOf(userInput) === -1 && trys > 0) {
-                wrongArr.push(userInput);
-                trys--;
-                document.getElementById('wrong').innerHTML = `wrongArr: ${wrongArr}`;
-                document.getElementById('trys').innerHTML = `Trys Left: ${trys}`;
+                wrongArr.push(userInput); // put userinput into wrong guess array
+                trys--; // lose a try
+                document.getElementById('wrong').innerHTML = `wrongArr: ${wrongArr}`; // html wrong guesses array
+                document.getElementById('trys').innerHTML = `Trys Left: ${trys}`; // html trys left
                 console.log(`wrongArr = ${wrongArr}`);
                 console.log(`trys left = ${trys}`);
-                scoreSystem();
             };
+            scoreSystem();
         };
 
 
