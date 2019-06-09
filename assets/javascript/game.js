@@ -33,7 +33,6 @@ var audioAnswer = function() {
 
 // pick a random possible choice and push out it's character's blank spaces
 var randomize = function() {
-    console.log(`ramdomize() - executed;`);
     var randomArr = mainArr[Math.floor(Math.random() * mainArr.length)];
     var randomArrUpper = randomArr.toUpperCase();
     answer = randomArrUpper.split('');
@@ -42,7 +41,6 @@ var randomize = function() {
     // Create blank spaces based on length of the answer
     for (var i = 0; i < answer.length; i++) {
         blankArr.push('_');
-        console.log(`Blanks: ${blankArr}`);
         document.getElementById('answer').innerHTML = blankArr.join(' ');
     }
 };
@@ -53,7 +51,6 @@ var randomize = function() {
 var check = function(a) {
     // set condition to choose what happens when the input matches/mismatches
     match = false;
-    console.log('check(a) - executed');
     // loop through the answer to see if input matches
     for (var i = 0; i < answer.length; i++) {
         // if input matches an answer and is not included in the blank array
@@ -80,7 +77,6 @@ var check = function(a) {
 
 // affect the dom
 var showHtml = function() {
-    console.log(`showHtml() - executed`);
     document.getElementById('answer').innerHTML = blankArr.join(' ');
     document.getElementById('wrong').innerHTML = `Wrong Key: ${wrongArr.join(' ')}`;
     document.getElementById('trys').innerHTML = `Trys Left: ${trys} / 12`;
