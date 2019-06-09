@@ -13,10 +13,13 @@
     <link rel="stylesheet" href="./assets/css/style.css"/>
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon-pokeball.ico"/>
 </head>
+<!-- responsive background -->
 <body class="bg tinted">
     <div class="container py-5 text-center">
         <div class="row">
+            <!-- center content to background's screen -->
             <div class="col-xs-4 content mt-5">
+                <!-- hint count to display -->
                 <h1 id="noob-count">Guess That Pokemon!</h1>
                 <div id="game">Press any key to start guessing!</div>
                 <div class="col">
@@ -25,18 +28,20 @@
                     <div id="trys"></div>
                     <div id="wins"></div>
                     <div id="loses"></div>
+                    <!-- show answer button -->
                     <button id="show-answer" onclick="showAnswer()">Show Answer</button>
-                    <div id="noob-count"></div>  
                 </div>
             </div>
         </div>
     </div>
+    <!-- link audio files to game -->
     <audio id="audio-win" src="./assets/audio/pokemon-level-up2.mp3" preload="auto"></audio>
     <a href="javascript:audioWin();"></a>
     <audio id="audio-lose" src="./assets/audio/pokemon-low-health.mp3" preload="auto"></audio>
     <a href="javascript:audioLose();"></a>
     <audio id="audio-answer" src="./assets/audio/pokemon-save-game.mp3" preload="auto"></audio>
     <a href="javascript:audioAnswer();"></a>
-        <script src="./assets/javascript/game.js"></script>
+    <!-- link game logic -->
+    <script src="./assets/javascript/game.js"></script>
 </body>
 </html>
