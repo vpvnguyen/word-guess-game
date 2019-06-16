@@ -16,6 +16,7 @@ var loses = 0;
 
 // set condition when user input matches the answer
 var match = false;
+
 // store amount of times user showed the answer, set condition to not exceed 1 per round
 var noobCount = 0;
 var answerShown = false;
@@ -36,7 +37,10 @@ var randomize = function() {
     var randomArr = mainArr[Math.floor(Math.random() * mainArr.length)];
     var randomArrUpper = randomArr.toUpperCase();
     answer = randomArrUpper.split('');
+    console.log('\n======================');
     console.log(`Random Pick: ${answer}`);
+    console.log('======================\n');
+
     document.getElementById('answer').innerHTML = `answer: ${answer}`;
     // Create blank spaces based on length of the answer
     for (var i = 0; i < answer.length; i++) {
@@ -55,10 +59,8 @@ var check = function(a) {
     for (var i = 0; i < answer.length; i++) {
         // if input matches an answer and is not included in the blank array
         if (a === answer[i] && (!blankArr[i].includes(a))) {
-            console.log(`=== MATCH! ===`);
+            console.log(`==== MATCH! ====`);
             blankArr[i] = a;
-            console.log(`a = ${a} | answer[i] = ${answer[i]}`);
-            console.log(`blankArr: ${blankArr}`);
             // set match to true to skip the rest
             match = true;
         }  
@@ -66,12 +68,9 @@ var check = function(a) {
     // set match to false to run if item did not match; if input is not in wrong array and the input is not the correct answer
     // store input into wrong array and lose a try
     if (match === false && wrongArr.indexOf(a) === -1 && answer.indexOf(a) === -1) {
-        console.log('== NO MATCH ==')
-        console.log(`a = ${a} | answer[i] = ${answer[i]}`);
+        console.log('**** NO MATCH ****');
         wrongArr.push(a);
-        console.log(`wrongArr: ${wrongArr}`);
         trys--;
-        console.log(`trys left: ${trys}`);
     }
 };
 
@@ -84,7 +83,7 @@ var showHtml = function() {
     document.getElementById('loses').innerHTML = `Loses: ${loses}`;
     document.getElementById('game').innerHTML = ``;
     if (noobCount > 0) {
-        document.getElementById('noob-count').innerHTML = `Hints Used: ${noobCount}`
+        document.getElementById('noob-count').innerHTML = `Hints Used: ${noobCount}`;
     }
 };
 
@@ -95,7 +94,6 @@ var next = function() {
     if (trys === 0) {
         audioLose();
         loses++;
-        console.log(`loses: ${loses}`);
         showHtml();
         blankArr =  [];
         answer = [];
@@ -110,7 +108,6 @@ var next = function() {
     // wins if answer matches blankarr
     if (answer.toString() === blankArr.toString()) {
         wins++;
-        console.log(`wins: ${wins}`);
         audioWin();
         showHtml();
         blankArr =  [];
@@ -137,6 +134,14 @@ var showAnswer = function() {
     }
 };
 
+var highScore = function () {
+    console.log('\n<----- HIGH SCORES ----->');
+    console.log('CK | Wins: 100 | Loses: 000 | Hints: 000');
+    console.log('CM | Wins: 020 | Loses: 001 | Hints: 000');
+    console.log('RM | Wins: 004 | Loses: 001 | Hints: 000');
+    console.log('<----- End HIGH SCORES ----->\n');
+}
+
 // game execution
 // pick a random answer
 randomize();
@@ -144,13 +149,20 @@ randomize();
 document.onkeyup = function(event) {
     console.log(`\n`);
     // save the key press
-    var keyPress = event.key;
-    var userInput = keyPress.toUpperCase();
-    console.log(`[Button Pressed] onkeyup userInput: ${userInput}`);
-    // check if input matches or mismatches
-    check(userInput);
-    // display correct or incorrect guesses
-    showHtml();
-    // check if user win or lose
-    next();
+    if ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode == 222 || event.keyCode == 32) {
+        var keyPress = event.key;
+        var userInput = keyPress.toUpperCase();
+        console.log(`Key pressed: ${userInput}`);
+        // check if input matches or mismatches
+        check(userInput);
+        // display correct or incorrect guesses
+        showHtml();
+        // check if user win or lose
+        next();
+    } else {
+        alert(`Characters Allowed: \nLetter: A-Z \nApostrophe: ' \nPeriod: . \nspacebar: [ ]`);
+    }
+    console.log(`Current Guess: ${blankArr}`);
+    console.log(`Wrong Letters: ${wrongArr}`);
+    console.log(`Trys: ${trys} | Wins: ${wins} | Loses: ${loses}`);
 };
